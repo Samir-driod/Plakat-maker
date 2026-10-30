@@ -42,6 +42,11 @@ export function createRenderer(posterGroup, { quality = () => 'preview' } = {}) 
       if (!entry || entry.type !== el.type) {
         entry?.group.destroy();
         const group = new Konva.Group({ id, name: 'element' });
+        // Konva ignores clipFunc in getClientRect, so the transformer would size to the unclipped image; the box is authoritative.
+        group.getClientRect = function getClientRect(config = {}) {
+          const rect = { x: 0, y: 0, width: this.getAttr('boxW') ?? 0, height: this.getAttr('boxH') ?? 0 };
+          return config.skipTransform ? rect : this._transformedRect(rect, config.relativeTo);
+        };
         impl.create(group);
         posterGroup.add(group);
         entry = { group, type: el.type };

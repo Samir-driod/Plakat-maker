@@ -295,15 +295,23 @@ export function installInteraction(app) {
     const nodes = transformer.nodes();
     editor.setInteracting(false);
     store.update((d) => {
+      let changed = false;
       for (const node of nodes) {
         const b = d.boxes[d.orientation][node.id()];
         if (!b) continue;
-        b.x = Math.round(node.x());
-        b.y = Math.round(node.y());
-        b.w = Math.max(MIN_BOX, Math.round(node.getAttr('boxW')));
-        b.h = Math.max(MIN_BOX, Math.round(node.getAttr('boxH')));
-        b.rotation = Math.round(node.rotation() * 10) / 10;
+        const x = Math.round(node.x());
+        const y = Math.round(node.y());
+        const w = Math.max(MIN_BOX, Math.round(node.getAttr('boxW')));
+        const h = Math.max(MIN_BOX, Math.round(node.getAttr('boxH')));
+        const rotation = Math.round(node.rotation() * 10) / 10;
+        if (x !== b.x || y !== b.y || w !== b.w || h !== b.h || rotation !== b.rotation) changed = true;
+        b.x = x;
+        b.y = y;
+        b.w = w;
+        b.h = h;
+        b.rotation = rotation;
       }
+      return changed ? undefined : false;
     });
   });
 

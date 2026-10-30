@@ -24,6 +24,10 @@ describe('buildQrPayload', () => {
     const v = buildQrPayload('vcard', { firstName: 'Jan', lastName: 'Kowalski', org: 'Firma, S.A.', phone: '600100200', email: '', url: '' });
     expect(v).toBe(['BEGIN:VCARD', 'VERSION:3.0', 'N:Kowalski;Jan;;;', 'FN:Jan Kowalski', 'ORG:Firma\\, S.A.', 'TEL:600100200', 'END:VCARD'].join('\r\n'));
   });
+  it('wizytówka z samą firmą: FN zastępuje firma (vCard 3.0 wymaga niepustego FN)', () => {
+    const v = buildQrPayload('vcard', { org: 'Firma, S.A.' });
+    expect(v.split('\r\n')).toContain('FN:Firma\\, S.A.');
+  });
   it('tekst', () => {
     expect(buildQrPayload('text', { text: 'Dzień dobry' })).toBe('Dzień dobry');
   });
@@ -40,6 +44,9 @@ describe('qrValidationError', () => {
   it('akceptuje poprawne dane', () => {
     expect(qrValidationError('url', { url: 'a.pl' })).toBeNull();
     expect(qrValidationError('vcard', { firstName: 'Jan' })).toBeNull();
+  });
+  it('akceptuje wizytówkę z samą firmą', () => {
+    expect(qrValidationError('vcard', { org: 'Firma' })).toBeNull();
   });
 });
 

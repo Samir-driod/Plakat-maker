@@ -60,7 +60,7 @@ export function buildQrPayload(kind, data = {}) {
     case 'vcard': {
       const first = trim(data.firstName);
       const last = trim(data.lastName);
-      const lines = ['BEGIN:VCARD', 'VERSION:3.0', `N:${vEscape(last)};${vEscape(first)};;;`, `FN:${vEscape([first, last].filter(Boolean).join(' '))}`];
+      const lines = ['BEGIN:VCARD', 'VERSION:3.0', `N:${vEscape(last)};${vEscape(first)};;;`, `FN:${vEscape([first, last].filter(Boolean).join(' ') || trim(data.org))}`];
       const optional = [['ORG', data.org], ['TITLE', data.title], ['TEL', data.phone], ['EMAIL', data.email], ['URL', data.url]];
       for (const [key, value] of optional) if (trim(value)) lines.push(`${key}:${vEscape(trim(value))}`);
       lines.push('END:VCARD');

@@ -4,10 +4,11 @@ import { newDocument } from '../core/document.js';
 import { createEditor } from '../canvas/editor.js';
 import { preloadBundledFonts } from '../canvas/fontLoader.js';
 import { createSettings } from './settings.js';
+import { installImages } from './images.js';
 
 // Moduły funkcji: każdy eksportuje install(app). Kolejne zadania dopisują tu swoje moduły.
 // Moduły UI (pasek narzędzi, panele) muszą być na końcu — korzystają z akcji zarejestrowanych wcześniej.
-const FEATURES = [];
+const FEATURES = [installImages];
 
 async function start() {
   await preloadBundledFonts();

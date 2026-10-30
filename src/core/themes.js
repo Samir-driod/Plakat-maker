@@ -87,11 +87,11 @@ export function applyTheme(doc, theme) {
   doc.background.type = theme.background.type;
   if (theme.background.angle !== undefined) doc.background.angle = theme.background.angle;
   if (theme.background.pattern) doc.background.pattern = theme.background.pattern;
-  const keepPhoto = layoutPhotoHint(doc.layoutId) !== null;
+  const photoStyle = { ...themePhotoProps(theme), ...(layoutPhotoHint(doc.layoutId) ?? {}) };
   for (const el of Object.values(doc.elements)) {
     if (el.type === 'points') el.bullet = theme.bullet;
     if (el.type === 'qr') el.moduleStyle = theme.qr.moduleStyle;
-    if (el.role === 'photo' && !keepPhoto) Object.assign(el, themePhotoProps(theme));
+    if (el.role === 'photo') Object.assign(el, photoStyle);
   }
   doc.themeId = theme.id;
   return doc;

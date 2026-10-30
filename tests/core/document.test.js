@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { newDocument, setFormat, chooseLayout, findByRole, restoreRole, STARTERS } from '../../src/core/document.js';
-import { getTheme } from '../../src/core/themes.js';
+import { getTheme, applyTheme } from '../../src/core/themes.js';
 import { LAYOUTS } from '../../src/core/layouts.js';
 import { ORIENTATIONS } from '../../src/core/constants.js';
 
@@ -52,6 +52,29 @@ describe('chooseLayout', () => {
     expect(photo.shape).toBe('circle');
     chooseLayout(doc, 'split-left');
     expect(findByRole(doc, 'photo').shape).toBe(getTheme('nocny').photo.shape);
+  });
+});
+
+describe('styl zdjęcia z podpowiedzią układu', () => {
+  it('karta: koło z ramką i cieniem motywu', () => {
+    const doc = newDocument({ themeId: 'ocean', layoutId: 'card' });
+    const photo = findByRole(doc, 'photo');
+    expect(photo.shape).toBe('circle');
+    expect(photo.borderWidth).toBe(10);
+    expect(photo.shadow).toBe(true);
+  });
+  it('zmiana motywu w karcie aktualizuje ramkę i zachowuje koło', () => {
+    const doc = newDocument({ themeId: 'nocny', layoutId: 'card' });
+    applyTheme(doc, getTheme('ocean'));
+    const photo = findByRole(doc, 'photo');
+    expect(photo.shape).toBe('circle');
+    expect(photo.borderWidth).toBe(10);
+  });
+  it('ramka karty nie zależy od ścieżki: układ wybrany po motywie daje tę samą ramkę', () => {
+    const doc = chooseLayout(newDocument({ themeId: 'ocean', layoutId: 'split-left' }), 'card');
+    const photo = findByRole(doc, 'photo');
+    expect(photo.shape).toBe('circle');
+    expect(photo.borderWidth).toBe(10);
   });
 });
 

@@ -47,7 +47,7 @@ export function setFormat(doc, formatId, custom = null) {
 }
 
 function photoStyleFor(doc) {
-  return layoutPhotoHint(doc.layoutId) ?? themePhotoProps(getTheme(doc.themeId));
+  return { ...themePhotoProps(getTheme(doc.themeId)), ...(layoutPhotoHint(doc.layoutId) ?? {}) };
 }
 
 export function chooseLayout(doc, layoutId) {

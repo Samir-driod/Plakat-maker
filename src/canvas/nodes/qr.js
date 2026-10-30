@@ -1,6 +1,7 @@
 import Konva from 'konva';
 import { buildQrPayload, qrValidationError, qrMatrix } from '../../core/qr.js';
 import { roundRectPath } from '../shapes.js';
+import { containRect } from '../../core/image.js';
 
 const matrixCache = new Map();
 
@@ -156,13 +157,14 @@ export const qrNode = {
       fill: bg,
       cornerRadius: logoPad * 1.5,
     });
+    const r = logo ? containRect(logo.naturalWidth, logo.naturalHeight, logoSize, logoSize) : { x: 0, y: 0, width: logoSize, height: logoSize };
     group.findOne('.logo').setAttrs({
       visible: !!(logo && matrix),
       image: logo,
-      x: codeX + (size - logoSize) / 2,
-      y: codeY + (size - logoSize) / 2,
-      width: logoSize,
-      height: logoSize,
+      x: codeX + (size - logoSize) / 2 + r.x,
+      y: codeY + (size - logoSize) / 2 + r.y,
+      width: r.width,
+      height: r.height,
     });
 
     group.findOne('.caption').setAttrs({

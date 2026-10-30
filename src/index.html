@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; script-src 'self'; connect-src 'self' data: blob:">
+  <title>Plakat Maker</title>
+  <link rel="stylesheet" href="../dist/fonts.css">
+  <link rel="stylesheet" href="../dist/app.css">
+</head>
+<body>
+  <div id="app">
+    <header id="toolbar"></header>
+    <aside id="sidebar">
+      <nav id="tabs"></nav>
+      <div id="panel"></div>
+    </aside>
+    <main id="workspace">
+      <div id="stage"></div>
+      <div id="drop-overlay" hidden>Upuść zdjęcie lub projekt .plakat</div>
+    </main>
+    <footer id="statusbar"></footer>
+  </div>
+  <div id="modal-root"></div>
+  <div id="toast-root"></div>
+  <script src="../dist/renderer.js"></script>
+</body>
+</html>

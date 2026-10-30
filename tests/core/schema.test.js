@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   ProjectError, mergeWithDefaults, normalizeDocument, collectAssetIds, serializeProject, parseProject, projectToObject,
 } from '../../src/core/schema.js';
-import { createBaseDocument, DEFAULT_PALETTE, ELEMENT_DEFAULTS } from '../../src/core/model.js';
+import { createBaseDocument, DEFAULT_PALETTE, DEFAULT_BACKGROUND, ELEMENT_DEFAULTS } from '../../src/core/model.js';
 import { SCHEMA_VERSION, MIN_BOX } from '../../src/core/constants.js';
 
 function withBoxes(doc) {
@@ -138,6 +138,58 @@ describe('zasoby', () => {
     expect(photoOf(parsed.doc).assetId).toBeNull();
     expect(parsed.doc.background.imageId).toBeNull();
     expect(parsed.assets).toEqual({});
+    expect(parsed.warnings.length).toBeGreaterThanOrEqual(2);
+  });
+});
+
+describe('odporność na klucze dziedziczone i nie-tekstowe identyfikatory', () => {
+  it('nazwa z Object.prototype w kolejności nie trafia do listy elementów', () => {
+    const doc = withBoxes(createBaseDocument());
+    doc.order = ['constructor', ...doc.order];
+    const out = normalizeDocument(doc);
+    expect(out.order).not.toContain('constructor');
+    expect(out.order).toHaveLength(Object.keys(out.elements).length);
+  });
+  it('liczbowy i tablicowy wpis kolejności nie powoduje duplikatu', () => {
+    const doc = withBoxes(createBaseDocument());
+    doc.elements['1'] = { ...doc.elements[doc.order[3]], id: '1' };
+    doc.order = [1, ['1'], ...doc.order];
+    const out = normalizeDocument(doc);
+    expect(out.order.every((id) => typeof id === 'string')).toBe(true);
+    expect(out.order.filter((id) => id === '1')).toHaveLength(1);
+    expect(out.order).toHaveLength(Object.keys(out.elements).length);
+  });
+  it('identyfikator zasobu z Object.prototype jest usuwany z ostrzeżeniem', () => {
+    const doc = withBoxes(createBaseDocument());
+    photoOf(doc).assetId = 'constructor';
+    doc.background.imageId = 'constructor';
+    const parsed = parseProject(JSON.stringify({ app: 'plakat-maker', version: 1, doc, assets: {} }));
+    expect(photoOf(parsed.doc).assetId).toBeNull();
+    expect(parsed.doc.background.imageId).toBeNull();
+    expect(parsed.warnings).toContain('Brakuje obrazu użytego w projekcie — usunięto odwołanie.');
+    expect(Object.keys(parsed.assets)).toEqual([]);
+  });
+  it('nieznane wartości tła z Object.prototype wracają do domyślnych', () => {
+    const doc = withBoxes(createBaseDocument());
+    doc.background.type = 'toString';
+    doc.background.pattern = 'constructor';
+    const out = normalizeDocument(doc);
+    expect(out.background.type).toBe(DEFAULT_BACKGROUND.type);
+    expect(out.background.pattern).toBe(DEFAULT_BACKGROUND.pattern);
+  });
+  it('klucz __proto__ w elementach i zasobach jest pomijany', () => {
+    const doc = withBoxes(createBaseDocument());
+    const body = JSON.stringify({ app: 'plakat-maker', version: 1, doc, assets: {} });
+    const text = body
+      .replace('"elements":{', '"elements":{"__proto__":{"type":"text","text":"zlo"},')
+      .replace('"assets":{}', '"assets":{"__proto__":{"dataUrl":"data:image/png;base64,iVBORw0KGgo=","w":1,"h":1,"name":"x"}}');
+    const parsed = parseProject(text);
+    expect(Object.getPrototypeOf(parsed.doc.elements)).toBe(Object.prototype);
+    expect(parsed.doc.elements.type).toBeUndefined();
+    expect(Object.keys(parsed.doc.elements)).toHaveLength(Object.keys(doc.elements).length);
+    expect(Object.getPrototypeOf(parsed.assets)).toBe(Object.prototype);
+    expect(parsed.assets.dataUrl).toBeUndefined();
+    expect(Object.keys(parsed.assets)).toEqual([]);
     expect(parsed.warnings.length).toBeGreaterThanOrEqual(2);
   });
 });

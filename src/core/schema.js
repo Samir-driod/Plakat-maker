@@ -137,12 +137,17 @@ export function normalizeDocument(raw, warnings = []) {
 
   const elements = {};
   for (const [id, el] of Object.entries(isPlainObject(raw.elements) ? raw.elements : {})) {
+    if (id === '__proto__') {
+      warnings.push('Pominięto element o nieprawidłowym identyfikatorze.');
+      continue;
+    }
     const normalized = normalizeElement(id, el, warnings);
     if (normalized) elements[id] = normalized;
   }
   const ids = Object.keys(elements);
 
-  const order = [...new Set((Array.isArray(raw.order) ? raw.order : []).filter((id) => elements[id]))];
+  const order = [...new Set((Array.isArray(raw.order) ? raw.order : [])
+    .filter((id) => typeof id === 'string' && Object.hasOwn(elements, id)))];
   for (const id of ids) if (!order.includes(id)) order.push(id);
 
   const formats = {};
@@ -165,8 +170,8 @@ export function normalizeDocument(raw, warnings = []) {
   for (const k of PALETTE_KEYS) palette[k] = normalizeHex(raw.palette?.[k]) ?? DEFAULT_PALETTE[k];
 
   const background = mergeWithDefaults(DEFAULT_BACKGROUND, raw.background);
-  if (!(background.type in BACKGROUND_TYPES)) background.type = DEFAULT_BACKGROUND.type;
-  if (!(background.pattern in PATTERNS)) background.pattern = DEFAULT_BACKGROUND.pattern;
+  if (!Object.hasOwn(BACKGROUND_TYPES, background.type)) background.type = DEFAULT_BACKGROUND.type;
+  if (!Object.hasOwn(PATTERNS, background.pattern)) background.pattern = DEFAULT_BACKGROUND.pattern;
   background.patternColor = normalizeColorValue(background.patternColor) ?? DEFAULT_BACKGROUND.patternColor;
 
   return {
@@ -199,7 +204,9 @@ export function collectAssetIds(doc) {
 function normalizeAssets(raw, warnings) {
   const out = {};
   for (const [id, a] of Object.entries(isPlainObject(raw) ? raw : {})) {
-    if (isPlainObject(a) && typeof a.dataUrl === 'string' && a.dataUrl.startsWith('data:image/')) {
+    if (id === '__proto__') {
+      warnings.push('Pominięto obraz o nieprawidłowym identyfikatorze.');
+    } else if (isPlainObject(a) && typeof a.dataUrl === 'string' && a.dataUrl.startsWith('data:image/')) {
       out[id] = { dataUrl: a.dataUrl, w: finite(a.w, 0), h: finite(a.h, 0), name: text(a.name, 'obraz') };
     } else {
       warnings.push('Pominięto uszkodzony obraz zapisany w projekcie.');
@@ -211,16 +218,16 @@ function normalizeAssets(raw, warnings) {
 function dropMissingAssetRefs(doc, assets, warnings) {
   const missing = () => warnings.push('Brakuje obrazu użytego w projekcie — usunięto odwołanie.');
   for (const el of Object.values(doc.elements)) {
-    if ((el.type === 'photo' || el.type === 'image') && el.assetId && !assets[el.assetId]) {
+    if ((el.type === 'photo' || el.type === 'image') && el.assetId && !Object.hasOwn(assets, el.assetId)) {
       el.assetId = null;
       missing();
     }
-    if (el.type === 'qr' && el.logoAssetId && !assets[el.logoAssetId]) {
+    if (el.type === 'qr' && el.logoAssetId && !Object.hasOwn(assets, el.logoAssetId)) {
       el.logoAssetId = null;
       missing();
     }
   }
-  if (doc.background.imageId && !assets[doc.background.imageId]) {
+  if (doc.background.imageId && !Object.hasOwn(assets, doc.background.imageId)) {
     doc.background.imageId = null;
     missing();
   }
@@ -229,7 +236,7 @@ function dropMissingAssetRefs(doc, assets, warnings) {
 export function projectToObject(doc, assets) {
   const used = collectAssetIds(doc);
   const usedAssets = {};
-  for (const id of used) if (assets[id]) usedAssets[id] = assets[id];
+  for (const id of used) if (Object.hasOwn(assets, id)) usedAssets[id] = assets[id];
   return { app: APP_ID, version: SCHEMA_VERSION, doc, assets: usedAssets };
 }
 

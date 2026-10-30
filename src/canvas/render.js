@@ -33,7 +33,8 @@ export function createRenderer(posterGroup, { quality = () => 'preview' } = {}) 
     }
     const boxes = doc.boxes[doc.orientation];
     const seen = new Set();
-    doc.order.forEach((id, index) => {
+    let z = 1;
+    doc.order.forEach((id) => {
       const el = doc.elements[id];
       const impl = el && NODE_TYPES[el.type];
       if (!impl) return;
@@ -57,7 +58,7 @@ export function createRenderer(posterGroup, { quality = () => 'preview' } = {}) 
           console.error(`Błąd rysowania elementu „${el.name}”:`, err);
         }
       }
-      group.zIndex(index + 1);
+      group.zIndex(z++);
       seen.add(id);
     });
     for (const [id, entry] of entries) {

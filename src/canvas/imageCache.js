@@ -62,9 +62,10 @@ export function getFiltered(assetId, img, filter, quality = 'preview') {
   const canvas = document.createElement('canvas');
   canvas.width = Math.max(1, Math.round(img.naturalWidth * s));
   canvas.height = Math.max(1, Math.round(img.naturalHeight * s));
+  const effective = s === 1 ? filter : filter.replace(/blur\(([\d.]+)px\)/g, (_, v) => `blur(${(Number(v) * s).toFixed(2)}px)`);
   const c2d = canvas.getContext('2d');
-  if (filter.includes('blur(')) c2d.drawImage(img, 0, 0, canvas.width, canvas.height);
-  c2d.filter = filter;
+  if (effective.includes('blur(')) c2d.drawImage(img, 0, 0, canvas.width, canvas.height);
+  c2d.filter = effective;
   c2d.drawImage(img, 0, 0, canvas.width, canvas.height);
   filtered.set(key, canvas);
   if (filtered.size > MAX_FILTERED) filtered.delete(filtered.keys().next().value);

@@ -9,11 +9,16 @@ import { installInteraction } from '../canvas/interaction.js';
 import { installCommands } from './commands.js';
 import { installShortcuts } from '../ui/shortcuts.js';
 import { installProject } from './project.js';
+import { installAutosave } from './autosave.js';
+import { installErrorHandling } from './errors.js';
 import { installUI } from '../ui/index.js';
 
 // Moduły funkcji: każdy eksportuje install(app). Kolejne zadania dopisują tu swoje moduły.
 // Moduły UI (pasek narzędzi, panele) muszą być na końcu — korzystają z akcji zarejestrowanych wcześniej.
-const FEATURES = [installImages, installInteraction, installCommands, installShortcuts, installProject, installUI];
+const FEATURES = [
+  installErrorHandling, installImages, installInteraction, installCommands, installShortcuts,
+  installProject, installAutosave, installUI,
+];
 
 async function start() {
   await preloadBundledFonts();
@@ -41,5 +46,6 @@ async function start() {
 
 start().catch((err) => {
   console.error(err);
+  window.api?.logError?.(`start: ${err?.stack ?? err}`);
   document.getElementById('statusbar').textContent = `Błąd uruchamiania: ${err.message}`;
 });

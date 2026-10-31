@@ -13,7 +13,7 @@ export function installProject(app) {
 
   function refreshTitle() {
     const name = baseName(filePath) ?? `${store.doc.meta.name} (niezapisany)`;
-    api.setTitle?.(`${store.dirty ? '● ' : ''}${name} — Plakat Maker`);
+    api.setTitle?.(`${store.dirty ? '● ' : ''}${name} - Plakat Maker`);
     api.setDirty?.(store.dirty);
   }
   store.subscribe(refreshTitle);

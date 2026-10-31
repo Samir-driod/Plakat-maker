@@ -110,10 +110,7 @@ export const qrNode = {
       height: cardH,
       fill: bg,
       cornerRadius: Math.min(el.cardRadius, cardW / 2, cardH / 2),
-      shadowEnabled: true,
-      shadowColor: 'rgba(0,0,0,0.35)',
-      shadowBlur: size * 0.06,
-      shadowOffset: { x: 0, y: size * 0.02 },
+      shadowEnabled: false,
     });
 
     const error = qrValidationError(el.kind, el.data);

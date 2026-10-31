@@ -166,7 +166,7 @@ describe('odporność na klucze dziedziczone i nie-tekstowe identyfikatory', () 
     const parsed = parseProject(JSON.stringify({ app: 'plakat-maker', version: 1, doc, assets: {} }));
     expect(photoOf(parsed.doc).assetId).toBeNull();
     expect(parsed.doc.background.imageId).toBeNull();
-    expect(parsed.warnings).toContain('Brakuje obrazu użytego w projekcie — usunięto odwołanie.');
+    expect(parsed.warnings).toContain('Brakuje obrazu użytego w projekcie, usunięto odwołanie.');
     expect(Object.keys(parsed.assets)).toEqual([]);
   });
   it('nieznane wartości tła z Object.prototype wracają do domyślnych', () => {

@@ -1,72 +1,73 @@
 import { layoutPhotoHint } from './layouts.js';
 
+// Same jednolite tła i wzory, bez gradientów i miękkich cieni.
 export const THEMES = [
   {
     id: 'nocny', name: 'Nocny',
-    palette: { bg: '#0f172a', bg2: '#1e293b', accent: '#38bdf8', text: '#f8fafc', muted: '#94a3b8' },
-    fonts: { heading: 'Montserrat', body: 'Inter' },
-    background: { type: 'linear', angle: 135 },
-    bullet: 'dot', photo: { shape: 'rounded', borderWidth: 0 }, qr: { moduleStyle: 'rounded' },
-  },
-  {
-    id: 'jasny', name: 'Jasny minimal',
-    palette: { bg: '#ffffff', bg2: '#f1f5f9', accent: '#2563eb', text: '#0f172a', muted: '#475569' },
-    fonts: { heading: 'Inter', body: 'Inter' },
+    palette: { bg: '#1f2a33', bg2: '#2b3a46', accent: '#f2b33d', text: '#f4efe6', muted: '#a3afb8' },
+    fonts: { heading: 'Oswald', body: 'Lato' },
     background: { type: 'solid' },
-    bullet: 'check', photo: { shape: 'rect', borderWidth: 0 }, qr: { moduleStyle: 'square' },
+    bullet: 'dash', photo: { shape: 'rect', borderWidth: 0 }, qr: { moduleStyle: 'square' },
   },
   {
-    id: 'ocean', name: 'Ocean',
-    palette: { bg: '#03396c', bg2: '#005b96', accent: '#6dd5ed', text: '#ffffff', muted: '#b3cde0' },
-    fonts: { heading: 'Poppins', body: 'Nunito' },
-    background: { type: 'radial' },
-    bullet: 'arrow', photo: { shape: 'circle', borderWidth: 10 }, qr: { moduleStyle: 'dots' },
+    id: 'jasny', name: 'Papier',
+    palette: { bg: '#faf8f3', bg2: '#ece7dc', accent: '#c8402a', text: '#1b1b1b', muted: '#5d5a54' },
+    fonts: { heading: 'Montserrat', body: 'Lora' },
+    background: { type: 'solid' },
+    bullet: 'number', photo: { shape: 'rect', borderWidth: 0 }, qr: { moduleStyle: 'square' },
   },
   {
-    id: 'zachod', name: 'Zachód słońca',
-    palette: { bg: '#2d1b3d', bg2: '#c0392b', accent: '#ffb347', text: '#fff7ed', muted: '#fcd5b5' },
-    fonts: { heading: 'Bebas Neue', body: 'Lato' },
-    background: { type: 'linear', angle: 160 },
-    bullet: 'star', photo: { shape: 'arch', borderWidth: 0 }, qr: { moduleStyle: 'rounded' },
+    id: 'ocean', name: 'Morski',
+    palette: { bg: '#0f4c5c', bg2: '#16697a', accent: '#f4d6a0', text: '#ffffff', muted: '#b9dcd8' },
+    fonts: { heading: 'Raleway', body: 'Lato' },
+    background: { type: 'solid' },
+    bullet: 'arrow', photo: { shape: 'circle', borderWidth: 10 }, qr: { moduleStyle: 'square' },
+  },
+  {
+    id: 'zachod', name: 'Terakota',
+    palette: { bg: '#b8492f', bg2: '#8f3522', accent: '#ffd27a', text: '#fff6ea', muted: '#ffd9c2' },
+    fonts: { heading: 'Bebas Neue', body: 'Roboto' },
+    background: { type: 'solid' },
+    bullet: 'star', photo: { shape: 'arch', borderWidth: 0 }, qr: { moduleStyle: 'square' },
   },
   {
     id: 'las', name: 'Las',
-    palette: { bg: '#1b3a2b', bg2: '#2f5d46', accent: '#a3d977', text: '#f1f8e9', muted: '#c5e1a5' },
+    palette: { bg: '#23382c', bg2: '#30503d', accent: '#e8c468', text: '#f1eee2', muted: '#b6c3a6' },
     fonts: { heading: 'Merriweather', body: 'Open Sans' },
     background: { type: 'pattern', pattern: 'diagonal' },
     bullet: 'check', photo: { shape: 'rounded', borderWidth: 8 }, qr: { moduleStyle: 'square' },
   },
   {
-    id: 'neon', name: 'Neon',
-    palette: { bg: '#0a0a0a', bg2: '#1a0033', accent: '#ff2bd6', text: '#ffffff', muted: '#00f0ff' },
-    fonts: { heading: 'Oswald', body: 'Roboto' },
-    background: { type: 'pattern', pattern: 'grid' },
-    bullet: 'arrow', photo: { shape: 'hexagon', borderWidth: 6 }, qr: { moduleStyle: 'dots' },
+    id: 'neon', name: 'Riso',
+    palette: { bg: '#f2ede1', bg2: '#d8e6f2', accent: '#d6247a', text: '#1d1d1b', muted: '#1f5f99' },
+    fonts: { heading: 'Poppins', body: 'Inter' },
+    background: { type: 'pattern', pattern: 'dots' },
+    bullet: 'arrow', photo: { shape: 'rect', borderWidth: 0 }, qr: { moduleStyle: 'dots' },
   },
   {
     id: 'firmowy', name: 'Firmowy',
-    palette: { bg: '#f8fafc', bg2: '#e2e8f0', accent: '#0f766e', text: '#1e293b', muted: '#64748b' },
-    fonts: { heading: 'Raleway', body: 'Open Sans' },
+    palette: { bg: '#ffffff', bg2: '#e8edef', accent: '#0b5d78', text: '#18222b', muted: '#56636c' },
+    fonts: { heading: 'Inter', body: 'Inter' },
     background: { type: 'solid' },
     bullet: 'dash', photo: { shape: 'rect', borderWidth: 0 }, qr: { moduleStyle: 'square' },
   },
   {
-    id: 'pastel', name: 'Pastelowy',
-    palette: { bg: '#fdf2f8', bg2: '#e0f2fe', accent: '#db2777', text: '#3b0764', muted: '#7e22ce' },
+    id: 'pastel', name: 'Pudrowy',
+    palette: { bg: '#f6e6de', bg2: '#dbe5d2', accent: '#a8436a', text: '#3a2d38', muted: '#6c5a66' },
     fonts: { heading: 'Poppins', body: 'Nunito' },
     background: { type: 'pattern', pattern: 'dots' },
     bullet: 'dot', photo: { shape: 'circle', borderWidth: 12 }, qr: { moduleStyle: 'rounded' },
   },
   {
-    id: 'elegancki', name: 'Elegancki',
-    palette: { bg: '#111111', bg2: '#2b2b2b', accent: '#d4af37', text: '#f5f5f0', muted: '#bdb6a3' },
-    fonts: { heading: 'Playfair Display', body: 'Lora' },
-    background: { type: 'radial' },
-    bullet: 'dash', photo: { shape: 'arch', borderWidth: 4 }, qr: { moduleStyle: 'square' },
+    id: 'elegancki', name: 'Klasyczny',
+    palette: { bg: '#f3eee4', bg2: '#e4dccd', accent: '#8b1e1e', text: '#151515', muted: '#5c574e' },
+    fonts: { heading: 'Playfair Display', body: 'Merriweather' },
+    background: { type: 'solid' },
+    bullet: 'dash', photo: { shape: 'rect', borderWidth: 4 }, qr: { moduleStyle: 'square' },
   },
   {
     id: 'odreczny', name: 'Odręczny',
-    palette: { bg: '#fffbeb', bg2: '#fef3c7', accent: '#ea580c', text: '#292524', muted: '#78716c' },
+    palette: { bg: '#fff7e3', bg2: '#f9e4ad', accent: '#c94a1f', text: '#2b2622', muted: '#6b6158' },
     fonts: { heading: 'Caveat', body: 'Nunito' },
     background: { type: 'pattern', pattern: 'waves' },
     bullet: 'star', photo: { shape: 'rounded', borderWidth: 14 }, qr: { moduleStyle: 'rounded' },
@@ -78,7 +79,7 @@ export function getTheme(id) {
 }
 
 export function themePhotoProps(theme) {
-  return { shape: theme.photo.shape, borderWidth: theme.photo.borderWidth, shadow: true };
+  return { shape: theme.photo.shape, borderWidth: theme.photo.borderWidth, shadow: false };
 }
 
 export function applyTheme(doc, theme) {

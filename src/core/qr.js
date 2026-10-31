@@ -78,7 +78,7 @@ export function qrValidationError(kind, data = {}) {
   if (kind === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trim(data.email))) return 'Niepoprawny adres e-mail.';
   if (kind === 'phone' && trim(data.phone).replace(/[^\d]/g, '').length < 3) return 'Wpisz poprawny numer telefonu.';
   if (kind === 'vcard' && !trim(data.firstName) && !trim(data.lastName) && !trim(data.org)) return 'Podaj imię, nazwisko lub firmę.';
-  if (new TextEncoder().encode(buildQrPayload(kind, data)).length > MAX_PAYLOAD) return 'Za dużo danych dla kodu QR — skróć treść.';
+  if (new TextEncoder().encode(buildQrPayload(kind, data)).length > MAX_PAYLOAD) return 'Za dużo danych dla kodu QR. Skróć treść.';
   return null;
 }
 

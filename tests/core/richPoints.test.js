@@ -59,3 +59,15 @@ describe('normalizeItemStyle(s)', () => {
     expect(normalizeItemStyles(undefined, 2)).toEqual([]);
   });
 });
+
+describe('wrapRuns: sklejanie', () => {
+  const measure = (t) => t.length;
+  const texts = (lines) => lines.map((l) => l.map((f) => f.text).join(''));
+  it('kawałki różnych stylów bez spacji nie rozdzielają się', () => {
+    const lines = wrapRuns([{ text: 'aaa bb', style: 'lead' }, { text: ' - cc', style: 'n' }], 7, measure);
+    expect(texts(lines)).toEqual(['aaa', 'bb - cc']);
+  });
+  it('nie łamie na twardej spacji', () => {
+    expect(texts(wrapRuns([{ text: 'aaaa bbbb', style: 'n' }], 5, measure))).toEqual(['aaaa bbbb']);
+  });
+});

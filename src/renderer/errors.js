@@ -9,7 +9,7 @@ export function installErrorHandling(app) {
     const now = Date.now();
     if (now - lastToast > 5000) {
       lastToast = now;
-      toast('Wystąpił nieoczekiwany błąd. Praca jest zapisywana automatycznie — jeśli coś wygląda źle, użyj Ctrl+Z.', { type: 'error', timeout: 7000 });
+      toast('Wystąpił nieoczekiwany błąd. Praca zapisuje się automatycznie. Jeśli coś wygląda źle, użyj Ctrl+Z.', { type: 'error', timeout: 7000 });
     }
   }
   window.addEventListener('error', (e) => report(e.error ?? e.message, 'window.error'));

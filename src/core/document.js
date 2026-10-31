@@ -4,14 +4,14 @@ import { applyLayout, applyBottomOrder, computeLayout, layoutPhotoHint } from '.
 import { applyTheme, getTheme, themePhotoProps } from './themes.js';
 
 export const STARTERS = [
-  { id: 'start-nocny', name: 'Nocny — zdjęcie z lewej', themeId: 'nocny', layoutId: 'split-left' },
-  { id: 'start-jasny', name: 'Jasny — zdjęcie z prawej', themeId: 'jasny', layoutId: 'split-right' },
-  { id: 'start-ocean', name: 'Ocean — karta', themeId: 'ocean', layoutId: 'card' },
-  { id: 'start-zachod', name: 'Zachód — zdjęcie w tle', themeId: 'zachod', layoutId: 'full-photo' },
-  { id: 'start-las', name: 'Las — pół na pół', themeId: 'las', layoutId: 'sidebar' },
-  { id: 'start-neon', name: 'Neon — baner', themeId: 'neon', layoutId: 'photo-top' },
-  { id: 'start-firmowy', name: 'Firmowy — zdjęcie z lewej', themeId: 'firmowy', layoutId: 'split-left' },
-  { id: 'start-elegancki', name: 'Elegancki — karta', themeId: 'elegancki', layoutId: 'card' },
+  { id: 'start-nocny', name: 'Nocny, zdjęcie z lewej', themeId: 'nocny', layoutId: 'split-left' },
+  { id: 'start-jasny', name: 'Papier, zdjęcie z prawej', themeId: 'jasny', layoutId: 'split-right' },
+  { id: 'start-ocean', name: 'Morski, karta', themeId: 'ocean', layoutId: 'card' },
+  { id: 'start-zachod', name: 'Terakota, zdjęcie w tle', themeId: 'zachod', layoutId: 'full-photo' },
+  { id: 'start-las', name: 'Las, pół na pół', themeId: 'las', layoutId: 'sidebar' },
+  { id: 'start-neon', name: 'Riso, baner', themeId: 'neon', layoutId: 'photo-top' },
+  { id: 'start-firmowy', name: 'Firmowy, zdjęcie z lewej', themeId: 'firmowy', layoutId: 'split-left' },
+  { id: 'start-elegancki', name: 'Klasyczny, karta', themeId: 'elegancki', layoutId: 'card' },
 ];
 
 export function setFormat(doc, formatId, custom = null) {

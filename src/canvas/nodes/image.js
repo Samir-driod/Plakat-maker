@@ -7,7 +7,7 @@ export const imageNode = {
     group.add(new Konva.Rect({ name: 'hit', fill: 'rgba(0,0,0,0)' }));
     const frame = new Konva.Group({ name: 'frame', listening: false });
     frame.add(new Konva.Rect({ name: 'placeholder', dash: [12, 8] }));
-    frame.add(new Konva.Text({ name: 'placeholder-text', align: 'center', verticalAlign: 'middle', text: 'Obraz — kliknij dwukrotnie' }));
+    frame.add(new Konva.Text({ name: 'placeholder-text', align: 'center', verticalAlign: 'middle', text: 'Obraz (kliknij dwukrotnie)' }));
     frame.add(new Konva.Image({ name: 'img', visible: false }));
     group.add(frame);
   },

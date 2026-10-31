@@ -13,49 +13,55 @@ export function splitLead(text) {
 
 // Zawija ciąg fragmentów o różnych stylach do szerokości maxWidth.
 // runs: [{ text, style }], measure(text, style) → szerokość. Zwraca linie fragmentów z pozycją x.
+// Łamie tylko na zwykłych spacjach; kawałki różnych stylów bez spacji między nimi (i twarda spacja) trzymają się razem.
 export function wrapRuns(runs, maxWidth, measure) {
-  const tokens = [];
+  const words = [];
+  let word = null;
+  let space = null;
   for (const run of runs) {
-    for (const part of run.text.split(/(\s+)/)) {
-      if (part) tokens.push({ text: part, style: run.style, space: /^\s+$/.test(part) });
+    for (const part of run.text.split(/([ \t\n]+)/)) {
+      if (!part) continue;
+      if (/^[ \t\n]+$/.test(part)) {
+        space = { text: part, style: run.style };
+        word = null;
+      } else if (word) {
+        word.pieces.push({ text: part, style: run.style });
+      } else {
+        word = { space, pieces: [{ text: part, style: run.style }] };
+        words.push(word);
+        space = null;
+      }
     }
   }
+
   const lines = [];
   let line = [];
   let x = 0;
-  const pushFrag = (text, style) => {
+  const push = (text, style) => {
     const last = line[line.length - 1];
-    const width = measure(text, style);
     if (last && last.style === style) {
       last.text += text;
       last.width = measure(last.text, style);
       x = last.x + last.width;
     } else {
+      const width = measure(text, style);
       line.push({ text, style, x, width });
       x += width;
     }
   };
-  const breakLine = () => {
-    while (line.length && /^\s*$/.test(line[line.length - 1].text)) line.pop();
-    const lastFrag = line[line.length - 1];
-    if (lastFrag && /\s$/.test(lastFrag.text)) {
-      lastFrag.text = lastFrag.text.trimEnd();
-      lastFrag.width = measure(lastFrag.text, lastFrag.style);
+  for (const w of words) {
+    const width = w.pieces.reduce((sum, p) => sum + measure(p.text, p.style), 0);
+    const gap = line.length && w.space ? measure(w.space.text, w.space.style) : 0;
+    if (line.length && x + gap + width > maxWidth + 0.5) {
+      lines.push(line);
+      line = [];
+      x = 0;
+    } else if (line.length && w.space) {
+      push(w.space.text, w.space.style);
     }
-    lines.push(line);
-    line = [];
-    x = 0;
-  };
-  for (const t of tokens) {
-    if (t.space) {
-      if (line.length) pushFrag(t.text, t.style);
-      continue;
-    }
-    const w = measure(t.text, t.style);
-    if (line.length && x + w > maxWidth + 0.5) breakLine();
-    pushFrag(t.text, t.style);
+    for (const p of w.pieces) push(p.text, p.style);
   }
-  if (line.length || !lines.length) breakLine();
+  lines.push(line);
   return lines;
 }
 

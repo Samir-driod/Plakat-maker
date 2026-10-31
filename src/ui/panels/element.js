@@ -282,7 +282,7 @@ function qrSections(app, binder, el) {
     const f = resolveColor(doc, e.fg, '#111111');
     const b = resolveColor(doc, e.bg, '#ffffff');
     const msgs = [];
-    if (contrastRatio(f, b) < 3) msgs.push('⚠ Za mały kontrast — kod może się nie skanować.');
+    if (contrastRatio(f, b) < 3) msgs.push('⚠ Za mały kontrast, kod może się nie skanować.');
     else if (relativeLuminance(f) > relativeLuminance(b)) msgs.push('⚠ Jasny kod na ciemnym tle nie działa w części telefonów.');
     if (e.logoAssetId) msgs.push('Logo w środku wymusza najwyższą odporność (30%).');
     warn.replaceChildren(...msgs.map((m) => h('p', { class: m.startsWith('⚠') ? 'warning' : 'hint' }, m)));
@@ -292,8 +292,8 @@ function qrSections(app, binder, el) {
     [margin, elProp(id, 'margin')], [card, elProp(id, 'card')], [cardRadius, elProp(id, 'cardRadius')], [captionColor, elProp(id, 'captionColor')],
   ]);
   return [
-    section('Kod QR — treść', qrDataEditor(app, binder, id)),
-    section('Kod QR — wygląd', [
+    section('Kod QR: treść', qrDataEditor(app, binder, id)),
+    section('Kod QR: wygląd', [
       ...looks,
       warn,
       h('div', { class: 'btn-row' },

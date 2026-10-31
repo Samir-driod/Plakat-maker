@@ -21,7 +21,7 @@ export async function paletteFromPhoto(app) {
   const photo = findByRole(app.store.doc, 'photo');
   const asset = app.store.getAsset(photo?.assetId);
   if (!asset) {
-    toast('Najpierw dodaj zdjęcie — kolory zostaną z niego odczytane.');
+    toast('Najpierw dodaj zdjęcie, z niego weźmiemy kolory.');
     return;
   }
   const img = new Image();
@@ -57,10 +57,10 @@ function themesSection(app, binder) {
         applyTheme(doc, theme);
       }),
     },
-    h('div', { class: 'card-preview', style: { background: `linear-gradient(135deg, ${p.bg}, ${p.bg2})` } },
+    h('div', { class: 'card-preview', style: { background: p.bg } },
       h('div', { style: { display: 'flex', alignItems: 'center', gap: '8px' } },
         h('span', { style: { fontFamily: `"${theme.fonts.heading}"`, fontWeight: '700', fontSize: '24px', color: p.text } }, 'Aa'),
-        h('span', { style: { width: '28px', height: '6px', borderRadius: '3px', background: p.accent } }))),
+        h('span', { style: { width: '28px', height: '6px', background: p.accent } }))),
     h('div', { class: 'card-name' }, theme.name));
   });
   binder.watch((doc) => {
@@ -135,7 +135,7 @@ function backgroundSection(app, binder) {
     parts.push(h('div', { class: 'btn-row' },
       button('Wybierz obraz tła', () => app.actions.pickBackgroundImage(), { kind: 'primary' }),
       photo?.assetId ? button('Użyj zdjęcia z plakatu', () => app.store.update((d) => { d.background.imageId = photo.assetId; })) : null));
-    if (!doc.background.imageId) parts.push(h('p', { class: 'hint' }, 'Brak obrazu — widać kolor „Tło”.'));
+    if (!doc.background.imageId) parts.push(h('p', { class: 'hint' }, 'Brak obrazu, widać kolor „Tło”.'));
     const blur = slider({ label: 'Rozmycie', min: 0, max: 40, step: 1 });
     const dim = slider({ label: 'Przyciemnienie', min: 0, max: 0.9, step: 0.05, format: (v) => Math.round(v * 100), unit: '%' });
     binder.bind(blur, bgProp('blur'));

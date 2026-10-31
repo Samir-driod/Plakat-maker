@@ -1,28 +1,28 @@
 # Plakat Maker
 
-Program do tworzenia plakatów na ekrany (TV, monitory) — w poziomie i w pionie. Zdjęcie, tytuł, kilka punktów i kod QR, z pełną swobodą wyglądu. Działa bez internetu.
+Program do robienia plakatów na telewizory i monitory, w poziomie i w pionie. Wrzucasz zdjęcie, tytuł, kilka punktów i kod QR, a wygląd ustawiasz po swojemu. Działa bez internetu.
 
 ## Szybki start
 1. Uruchom `PlakatMaker-1.0.0-portable.exe` (bez instalacji) albo zainstaluj `PlakatMaker-1.0.0-instalator.exe`.
-2. Wybierz szablon startowy (możesz zmienić wszystko później).
+2. Wybierz szablon startowy. Wszystko da się potem zmienić.
 3. Przeciągnij swoje zdjęcie na plakat albo wklej je (Ctrl+V).
-4. W zakładce **Treść** wpisz tytuł, punkty i adres dla kodu QR.
-5. **Eksportuj** (Ctrl+E) do PNG, JPG lub PDF — albo od razu pokaż na ekranie (F5).
+4. W zakładce Treść wpisz tytuł, punkty i adres dla kodu QR.
+5. Eksportuj (Ctrl+E) do PNG, JPG lub PDF albo od razu pokaż plakat na ekranie (F5).
 
 ## Co potrafi
-- **Poziom i pion** w jednym projekcie — każda orientacja ma własny układ, wspólną treść; eksport obu naraz.
-- **6 układów** (zdjęcie z lewej/prawej, w tle, karta, pół na pół, baner) i **10 motywów**.
-- **Przeciąganie myszką** z przyciąganiem do środka, krawędzi i innych elementów, obrót, zmiana rozmiaru, zaznaczanie wielu elementów, wyrównywanie.
-- **Zdjęcie**: kształty (prostokąt, zaokrąglony, koło, łuk, sześciokąt), ramka, cień, kadrowanie myszą (dwuklik), filtry (czarno-białe, sepia, jasność, kontrast, nasycenie, rozmycie) i gotowe style.
-- **Kolory**: paleta motywu, pipeta z ekranu, ostatnio użyte kolory, **„Kolory ze zdjęcia”**, ostrzeżenia o słabym kontraście.
-- **14 czcionek z polskimi znakami** + czcionki systemowe; auto-dopasowanie rozmiaru tekstu do ramki.
-- **Punkty** (do 6): kropki, ptaszki, numery, strzałki, gwiazdki lub własny znak/emoji.
-- **Kod QR**: link, tekst, Wi-Fi, e-mail, telefon, wizytówka; style modułów, kolory, logo w środku, podpis.
-- **Tło**: kolor, gradient, gradient radialny, zdjęcie (rozmycie, przyciemnienie), wzory.
-- Dodatkowe teksty, obrazy (np. logo), kształty i linie; warstwy z blokowaniem i ukrywaniem.
-- **Eksport** PNG/JPG/PDF w 1×, 2× (4K), 3×; PDF w rozmiarze ekranu lub A4; kopiowanie do schowka.
-- **Pokaz pełnoekranowy** na wybranym monitorze (F5).
-- **Własne szablony**, ostatnie projekty, **autozapis co kilka sekund** i odzyskiwanie po awarii, pytanie o zapis przy zamykaniu.
+- Wersja pozioma i pionowa w jednym projekcie. Treść jest wspólna, a każda orientacja ma swój układ. Obie można wyeksportować naraz.
+- 6 układów (zdjęcie z lewej lub prawej, w tle, karta, pół na pół, baner) i 10 motywów.
+- Elementy przesuwa się myszką. Przyciągają się do środka, krawędzi i innych elementów. Można je obracać, zmieniać rozmiar, zaznaczać kilka naraz i wyrównywać.
+- Zdjęcie może być prostokątem, zaokrąglonym prostokątem, kołem, łukiem albo sześciokątem. Ma ramkę, cień, kadrowanie myszą (dwuklik), filtry (czarno-białe, sepia, jasność, kontrast, nasycenie, rozmycie) i gotowe style.
+- Kolory bierzesz z palety motywu, pipetą z ekranu, z ostatnio użytych albo prosto ze zdjęcia. Program ostrzega, gdy kontrast jest za słaby.
+- 14 czcionek z polskimi znakami plus czcionki systemowe. Tekst sam dopasowuje rozmiar do ramki.
+- Do 6 punktów ze znacznikiem do wyboru (kropka, ptaszek, numer, strzałka, gwiazdka, własny znak albo emoji). Hasło przed myślnikiem („Hasło - opis”) może mieć inny kolor i pogrubienie, a każdy punkt może wyglądać inaczej.
+- Kod QR: link, tekst, Wi-Fi, e-mail, telefon albo wizytówka. Do tego styl modułów, kolory, logo w środku i podpis.
+- Tło: kolor, gradient liniowy lub radialny, zdjęcie (z rozmyciem i przyciemnieniem) albo wzór.
+- Dodatkowe teksty, obrazy (np. logo), kształty i linie. Warstwy można blokować i ukrywać.
+- Eksport PNG, JPG i PDF w 1×, 2× (4K) i 3×. PDF w rozmiarze ekranu albo A4. Plakat można też skopiować do schowka.
+- Pokaz pełnoekranowy na wybranym monitorze (F5).
+- Własne szablony i lista ostatnich projektów. Autozapis co kilka sekund, odzyskiwanie po awarii i pytanie o zapis przy zamykaniu.
 
 ## Skróty klawiszowe
 Pełna lista: **F1** w programie. Najważniejsze: Ctrl+S zapisz · Ctrl+Z / Ctrl+Y cofnij/ponów · Ctrl+D duplikuj · Delete usuń · strzałki przesuwają (Shift = 10 px) · Ctrl+1 / Ctrl+2 poziom/pion · Ctrl+E eksport · F5 pokaz · Ctrl + kółko zoom · Spacja + przeciąganie przesuwa widok · Alt podczas przeciągania wyłącza przyciąganie.
@@ -41,5 +41,5 @@ npm run dist       # paczki .exe w folderze release/
 ```
 
 ### GitHub Actions
-- **CI** — testy i build przy każdym pushu na `main` i w pull requestach (bez wydania).
-- **Release** — tylko ręcznie: zakładka *Actions* → *Release* → *Run workflow*. Można podać wersję (np. `1.1.0`; puste = wersja z `package.json`). Workflow buduje oba pliki .exe i publikuje je jako wydanie `vX.Y.Z` w zakładce *Releases*.
+- CI uruchamia testy i build przy każdym pushu na `main` i w pull requestach. Niczego nie wydaje.
+- Release uruchamia się tylko ręcznie: Actions, potem Release i Run workflow. Można podać wersję, np. `1.1.0`. Puste pole oznacza wersję z `package.json`. Workflow buduje oba pliki .exe i wystawia je jako wydanie `vX.Y.Z` w zakładce Releases.

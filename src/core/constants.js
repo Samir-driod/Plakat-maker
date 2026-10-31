@@ -5,10 +5,10 @@ export const FILE_EXT = 'plakat';
 export const ORIENTATIONS = ['landscape', 'portrait'];
 
 export const FORMAT_PRESETS = [
-  { id: '16:9', label: '16:9 — Full HD (TV, monitor)', landscape: { w: 1920, h: 1080 }, portrait: { w: 1080, h: 1920 } },
-  { id: '4:3', label: '4:3 — klasyczny ekran', landscape: { w: 1600, h: 1200 }, portrait: { w: 1200, h: 1600 } },
-  { id: '1:1', label: '1:1 — kwadrat', landscape: { w: 1500, h: 1500 }, portrait: { w: 1500, h: 1500 } },
-  { id: '21:9', label: '21:9 — ultrapanorama', landscape: { w: 2520, h: 1080 }, portrait: { w: 1080, h: 2520 } },
+  { id: '16:9', label: '16:9 Full HD (TV, monitor)', landscape: { w: 1920, h: 1080 }, portrait: { w: 1080, h: 1920 } },
+  { id: '4:3', label: '4:3 klasyczny ekran', landscape: { w: 1600, h: 1200 }, portrait: { w: 1200, h: 1600 } },
+  { id: '1:1', label: '1:1 kwadrat', landscape: { w: 1500, h: 1500 }, portrait: { w: 1500, h: 1500 } },
+  { id: '21:9', label: '21:9 ultrapanorama', landscape: { w: 2520, h: 1080 }, portrait: { w: 1080, h: 2520 } },
 ];
 
 export const PALETTE_KEYS = ['bg', 'bg2', 'accent', 'text', 'muted'];
@@ -29,7 +29,7 @@ export const BULLETS = {
   check: { label: 'Ptaszek', char: '✓' },
   number: { label: 'Numer', char: null },
   arrow: { label: 'Strzałka', char: '➜' },
-  dash: { label: 'Myślnik', char: '—' },
+  dash: { label: 'Myślnik', char: '-' },
   star: { label: 'Gwiazdka', char: '★' },
   custom: { label: 'Własny znak', char: null },
 };

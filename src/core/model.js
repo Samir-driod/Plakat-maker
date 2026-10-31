@@ -1,10 +1,10 @@
 import { newId } from './ids.js';
 import { normalizeHex } from './colors.js';
 
-export const DEFAULT_PALETTE = { bg: '#0f172a', bg2: '#1e293b', accent: '#38bdf8', text: '#f8fafc', muted: '#94a3b8' };
-export const DEFAULT_FONTS = { heading: 'Montserrat', body: 'Inter' };
+export const DEFAULT_PALETTE = { bg: '#1f2a33', bg2: '#2b3a46', accent: '#f2b33d', text: '#f4efe6', muted: '#a3afb8' };
+export const DEFAULT_FONTS = { heading: 'Oswald', body: 'Lato' };
 export const DEFAULT_BACKGROUND = {
-  type: 'linear',
+  type: 'solid',
   angle: 135,
   imageId: null,
   blur: 6,
@@ -19,10 +19,10 @@ export const ELEMENT_DEFAULTS = {
   photo: {
     assetId: null,
     shape: 'rounded',
-    radius: 36,
+    radius: 20,
     borderWidth: 0,
     borderColor: 'palette:accent',
-    shadow: true,
+    shadow: false,
     crop: { zoom: 1, x: 0.5, y: 0.5 },
     flipX: false,
     filters: { grayscale: 0, sepia: 0, brightness: 100, contrast: 100, saturation: 100, blur: 0 },
@@ -74,7 +74,7 @@ export const ELEMENT_DEFAULTS = {
     caption: 'Zeskanuj mnie',
     captionColor: '#111111',
     card: true,
-    cardRadius: 24,
+    cardRadius: 8,
   },
   image: { assetId: null, opacity: 1, radius: 0, fit: 'contain' },
   shape: { shape: 'rect', fill: 'palette:accent', stroke: 'palette:text', strokeWidth: 0, radius: 0, opacity: 1 },
@@ -110,8 +110,8 @@ export function createElement(type, role = 'free', overrides = {}) {
 export function createBaseDocument() {
   const elements = [
     createElement('photo', 'photo'),
-    createElement('shape', 'panel', { fill: 'palette:bg', opacity: 0.85, radius: 32 }),
-    createElement('shape', 'accent', { fill: 'palette:accent', radius: 6 }),
+    createElement('shape', 'panel', { fill: 'palette:bg', opacity: 0.94, radius: 0 }),
+    createElement('shape', 'accent', { fill: 'palette:accent', radius: 0 }),
     createElement('text', 'title', { text: 'Twój tytuł', font: 'heading', size: 110, bold: true, lineHeight: 1.05 }),
     createElement('text', 'subtitle', { text: 'Krótki podtytuł lub hasło', size: 46, color: 'palette:muted' }),
     createElement('points', 'points'),

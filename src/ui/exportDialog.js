@@ -11,7 +11,7 @@ export function preflightWarnings(doc) {
   for (const o of ['landscape', 'portrait']) {
     const photo = findByRole(doc, 'photo');
     if (photo && !photo.assetId && !doc.boxes[o][photo.id]?.hidden) {
-      warnings.push('Nie dodano zdjęcia — w jego miejscu będzie puste tło ramki.');
+      warnings.push('Nie dodano zdjęcia, w jego miejscu będzie puste tło ramki.');
       break;
     }
   }
@@ -33,7 +33,7 @@ export function installExport(app) {
     try {
       const dataUrl = await renderPoster(app.editor, store, { orientation: store.doc.orientation, scale: 1 });
       await api.copyImage(dataUrl);
-      toast('Skopiowano plakat do schowka — wklej go np. w Wordzie lub komunikatorze.', { type: 'success' });
+      toast('Skopiowano plakat do schowka. Możesz go wkleić np. w Wordzie albo na Messengerze.', { type: 'success' });
     } catch (err) {
       toast(`Nie udało się skopiować: ${err.message}`, { type: 'error' });
     }
@@ -78,7 +78,7 @@ export function installExport(app) {
       const o = values.orientation === 'current' || values.orientation === 'both' ? doc.orientation : values.orientation;
       scale.input.replaceChildren(...EXPORT_SCALES.map((s) => {
         const d = exportDims(doc.formats[o], s.value);
-        return h('option', { value: String(s.value) }, `${s.label} — ${d.width} × ${d.height} px`);
+        return h('option', { value: String(s.value) }, `${s.label}: ${d.width} × ${d.height} px`);
       }));
       scale.set(values.scale);
       quality.set(values.jpgQuality);

@@ -35,7 +35,7 @@ export const layersPanel = {
         },
       },
       h('span', { class: 'layer-type' }, TYPE_NAMES[el.type]),
-      h('span', { class: 'layer-name', title: 'Dwuklik — zmiana nazwy' }, el.name),
+      h('span', { class: 'layer-name', title: 'Dwuklik zmienia nazwę' }, el.name),
       h('span', { class: 'layer-actions' },
         button(hidden ? '◌' : '◉', stop(() => store.update((d) => { toggleHidden(d, [id]); })), { small: true, kind: 'ghost', title: hidden ? 'Pokaż w tej orientacji' : 'Ukryj w tej orientacji' }),
         button(el.locked ? '🔒' : '🔓', stop(() => store.update((d) => { setLocked(d, [id], !el.locked); })), { small: true, kind: 'ghost', title: el.locked ? 'Odblokuj' : 'Zablokuj' }),
@@ -44,7 +44,7 @@ export const layersPanel = {
     });
     root.append(section('Warstwy (od góry)', [
       h('div', { class: 'layer-list' }, rows),
-      h('p', { class: 'hint' }, 'Klik — zaznacz, Shift+klik — dodaj do zaznaczenia, dwuklik — zmień nazwę. Ukrycie dotyczy tylko bieżącej orientacji.'),
+      h('p', { class: 'hint' }, 'Klik zaznacza, Shift+klik dodaje do zaznaczenia, dwuklik zmienia nazwę. Ukrycie dotyczy tylko bieżącej orientacji.'),
       h('div', { class: 'btn-row' },
         button('Na wierzch', () => app.actions.reorderSelection('front'), { small: true }),
         button('Na spód', () => app.actions.reorderSelection('back'), { small: true })),

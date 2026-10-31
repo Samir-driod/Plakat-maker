@@ -34,9 +34,11 @@ export const pointsNode = {
     const runsOf = ({ text, st }) => {
       const bold = st.bold ?? el.bold;
       const { lead, rest } = el.leadHighlight ? splitLead(text) : { lead: '', rest: text };
+      // Myślnik zostaje przy poprzednim słowie, żeby linia nie zaczynała się od „- ”.
+      const glued = rest.replace(/ ([-–—]) /g, '\u00a0$1 ');
       return [
         ...(lead ? [{ text: lead, style: 'lead', bold: bold || el.leadBold }] : []),
-        { text: rest, style: 'body', bold },
+        { text: glued, style: 'body', bold },
       ];
     };
     const layoutItem = (e, s) => {

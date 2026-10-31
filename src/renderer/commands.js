@@ -73,7 +73,7 @@ export function installCommands(app) {
       store.update((doc) => {
         setLocked(doc, ids, lock);
       });
-      toast(lock ? 'Zablokowano — element nie będzie się przesuwał.' : 'Odblokowano.');
+      toast(lock ? 'Zablokowano. Element nie będzie się przesuwał.' : 'Odblokowano.');
     },
     toggleHiddenSelection() {
       const ids = selected();

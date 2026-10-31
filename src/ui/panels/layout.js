@@ -119,7 +119,7 @@ function helpersSection(app) {
     grid.el,
     gridSize.el,
     safe.el,
-    h('p', { class: 'hint' }, 'Niektóre telewizory obcinają brzegi obrazu — trzymaj ważne treści wewnątrz pomarańczowej ramki.'),
+    h('p', { class: 'hint' }, 'Niektóre telewizory obcinają brzegi obrazu, więc trzymaj ważne rzeczy w pomarańczowej ramce.'),
     snap.el,
   ]);
   return { el, dispose: () => offs.forEach((off) => off()) };

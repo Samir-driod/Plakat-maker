@@ -166,7 +166,7 @@ export function normalizeDocument(raw, warnings = []) {
       boxes[o][id] = box ?? defaultBox(formats[o]);
     }
   }
-  if (missingBoxes) warnings.push('Niektóre elementy nie miały pozycji — ustawiono je na środku plakatu.');
+  if (missingBoxes) warnings.push('Niektóre elementy nie miały pozycji, więc ustawiono je na środku plakatu.');
 
   const palette = {};
   for (const k of PALETTE_KEYS) palette[k] = normalizeHex(raw.palette?.[k]) ?? DEFAULT_PALETTE[k];
@@ -218,7 +218,7 @@ function normalizeAssets(raw, warnings) {
 }
 
 function dropMissingAssetRefs(doc, assets, warnings) {
-  const missing = () => warnings.push('Brakuje obrazu użytego w projekcie — usunięto odwołanie.');
+  const missing = () => warnings.push('Brakuje obrazu użytego w projekcie, usunięto odwołanie.');
   for (const el of Object.values(doc.elements)) {
     if ((el.type === 'photo' || el.type === 'image') && el.assetId && !Object.hasOwn(assets, el.assetId)) {
       el.assetId = null;

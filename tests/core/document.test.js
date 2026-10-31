@@ -56,12 +56,12 @@ describe('chooseLayout', () => {
 });
 
 describe('styl zdjęcia z podpowiedzią układu', () => {
-  it('karta: koło z ramką i cieniem motywu', () => {
+  it('karta: koło z ramką motywu, bez cienia', () => {
     const doc = newDocument({ themeId: 'ocean', layoutId: 'card' });
     const photo = findByRole(doc, 'photo');
     expect(photo.shape).toBe('circle');
     expect(photo.borderWidth).toBe(10);
-    expect(photo.shadow).toBe(true);
+    expect(photo.shadow).toBe(false);
   });
   it('zmiana motywu w karcie aktualizuje ramkę i zachowuje koło', () => {
     const doc = newDocument({ themeId: 'nocny', layoutId: 'card' });

@@ -135,7 +135,7 @@ export function installTemplates(app) {
       size: 'wide',
       body: h('div', {},
         h('div', { class: 'two-col' }, orientation.el, formatSelect.el),
-        h('div', { class: 'field-label' }, 'Szablony startowe (motyw + układ — wszystko zmienisz później)'),
+        h('div', { class: 'field-label' }, 'Szablony startowe (motyw i układ, wszystko zmienisz później)'),
         starterGrid,
         userCards.length ? [h('div', { class: 'field-label', style: { marginTop: '12px' } }, 'Moje szablony'), h('div', { class: 'card-grid three' }, userCards)] : null,
         welcome ? welcomeToggle.el : null),

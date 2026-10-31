@@ -1,7 +1,7 @@
 export const EXPORT_SCALES = [
-  { value: 1, label: '1× — rozmiar projektu' },
-  { value: 2, label: '2× — np. 4K' },
-  { value: 3, label: '3× — bardzo duży' },
+  { value: 1, label: '1× (rozmiar projektu)' },
+  { value: 2, label: '2× (np. 4K)' },
+  { value: 3, label: '3× (bardzo duży)' },
 ];
 
 export function exportDims(format, scale) {

@@ -23,6 +23,7 @@ export function installSidebar(app, panels) {
     if (!force && key === lastKey) return;
     lastKey = key;
     const scrollTop = root.scrollTop;
+    root.dispatchEvent(new Event('panel:dispose'));
     scope?.dispose();
     scope = app.ui.binder.scope();
     clear(root);

@@ -4,8 +4,10 @@ import { installStatusbar } from './statusbar.js';
 import { installSidebar } from './sidebar.js';
 import { contentPanel } from './panels/content.js';
 import { stylePanel } from './panels/style.js';
+import { layoutPanel } from './panels/layout.js';
+import { layersPanel } from './panels/layers.js';
 
-export const PANELS = [contentPanel, stylePanel];
+export const PANELS = [contentPanel, stylePanel, layoutPanel, layersPanel];
 
 export function installUI(app) {
   app.ui.binder = createBinder(app.store);

@@ -11,6 +11,7 @@ import { installShortcuts } from '../ui/shortcuts.js';
 import { installProject } from './project.js';
 import { installAutosave } from './autosave.js';
 import { installExport } from '../ui/exportDialog.js';
+import { installTemplates } from '../ui/newProjectDialog.js';
 import { installErrorHandling } from './errors.js';
 import { installUI } from '../ui/index.js';
 
@@ -18,7 +19,7 @@ import { installUI } from '../ui/index.js';
 // Moduły UI (pasek narzędzi, panele) muszą być na końcu — korzystają z akcji zarejestrowanych wcześniej.
 const FEATURES = [
   installErrorHandling, installImages, installInteraction, installCommands, installShortcuts,
-  installProject, installAutosave, installExport, installUI,
+  installProject, installAutosave, installExport, installTemplates, installUI,
 ];
 
 async function start() {

@@ -8,10 +8,11 @@ import { installImages } from './images.js';
 import { installInteraction } from '../canvas/interaction.js';
 import { installCommands } from './commands.js';
 import { installShortcuts } from '../ui/shortcuts.js';
+import { installUI } from '../ui/index.js';
 
 // Moduły funkcji: każdy eksportuje install(app). Kolejne zadania dopisują tu swoje moduły.
 // Moduły UI (pasek narzędzi, panele) muszą być na końcu — korzystają z akcji zarejestrowanych wcześniej.
-const FEATURES = [installImages, installInteraction, installCommands, installShortcuts];
+const FEATURES = [installImages, installInteraction, installCommands, installShortcuts, installUI];
 
 async function start() {
   await preloadBundledFonts();

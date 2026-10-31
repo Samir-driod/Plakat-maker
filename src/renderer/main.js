@@ -8,11 +8,12 @@ import { installImages } from './images.js';
 import { installInteraction } from '../canvas/interaction.js';
 import { installCommands } from './commands.js';
 import { installShortcuts } from '../ui/shortcuts.js';
+import { installProject } from './project.js';
 import { installUI } from '../ui/index.js';
 
 // Moduły funkcji: każdy eksportuje install(app). Kolejne zadania dopisują tu swoje moduły.
 // Moduły UI (pasek narzędzi, panele) muszą być na końcu — korzystają z akcji zarejestrowanych wcześniej.
-const FEATURES = [installImages, installInteraction, installCommands, installShortcuts, installUI];
+const FEATURES = [installImages, installInteraction, installCommands, installShortcuts, installProject, installUI];
 
 async function start() {
   await preloadBundledFonts();
@@ -21,12 +22,19 @@ async function start() {
   const store = createStore(newDocument());
   const selection = createSelection();
   const editor = createEditor({ container: document.getElementById('stage'), store });
-  const app = { api, settings, store, selection, editor, actions: {}, ui: {} };
+  const app = { api, settings, store, selection, editor, actions: {}, ui: {}, startupTasks: [] };
   store.subscribe((doc) => selection.prune(doc));
   for (const install of FEATURES) await install(app);
   editor.fit();
   editor.renderNow();
   document.body.dataset.ready = 'true';
+  for (const task of app.startupTasks) {
+    try {
+      await task();
+    } catch (err) {
+      console.error('Błąd zadania startowego:', err);
+    }
+  }
   if (api.isE2E) window.__plakat = app;
   return app;
 }

@@ -39,3 +39,7 @@ npm test           # testy jednostkowe (Vitest)
 npm run e2e        # test end-to-end (Playwright + Electron)
 npm run dist       # paczki .exe w folderze release/
 ```
+
+### GitHub Actions
+- **CI** — testy i build przy każdym pushu na `main` i w pull requestach (bez wydania).
+- **Release** — tylko ręcznie: zakładka *Actions* → *Release* → *Run workflow*. Można podać wersję (np. `1.1.0`; puste = wersja z `package.json`). Workflow buduje oba pliki .exe i publikuje je jako wydanie `vX.Y.Z` w zakładce *Releases*.

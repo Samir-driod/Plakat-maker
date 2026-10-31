@@ -1,0 +1,60 @@
+name: Release
+
+# Uruchamiane tylko ręcznie: Actions → Release → Run workflow.
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Wersja (np. 1.1.0). Puste = wersja z package.json'
+        required: false
+        default: ''
+      prerelease:
+        description: 'Oznacz jako wersję testową (pre-release)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm test
+
+      - name: Ustal wersję
+        id: ver
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          if [ -n "$INPUT_VERSION" ]; then
+            npm version "$INPUT_VERSION" --no-git-tag-version --allow-same-version
+          fi
+          echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Zbuduj .exe (portable + instalator)
+        run: |
+          node build.mjs
+          npx electron-builder --win portable nsis --publish never
+
+      - name: Utwórz wydanie na GitHubie
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.ver.outputs.version }}
+          PRERELEASE: ${{ inputs.prerelease }}
+        run: |
+          flags=()
+          [ "$PRERELEASE" = "true" ] && flags+=(--prerelease)
+          gh release create "v$VERSION" release/*.exe \
+            --target "$GITHUB_SHA" \
+            --title "Plakat Maker $VERSION" \
+            --generate-notes "${flags[@]}"

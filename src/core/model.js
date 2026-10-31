@@ -57,6 +57,10 @@ export const ELEMENT_DEFAULTS = {
     spacing: 0.6,
     distribute: 'top',
     autoFit: true,
+    leadHighlight: true,
+    leadBold: true,
+    leadColor: 'palette:accent',
+    itemStyles: [],
   },
   qr: {
     kind: 'url',

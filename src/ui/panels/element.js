@@ -10,6 +10,7 @@ import {
 import { TYPE_NAMES, resolveColor } from '../../core/model.js';
 import { contrastRatio, relativeLuminance } from '../../core/colors.js';
 import { renameElement } from '../../core/elementOps.js';
+import { ITEM_SCALE } from '../../core/richPoints.js';
 
 export const FILTER_PRESETS = [
   { name: 'Oryginał', filters: { grayscale: 0, sepia: 0, brightness: 100, contrast: 100, saturation: 100, blur: 0 } },
@@ -148,7 +149,71 @@ function pointsSections(app, binder, el) {
     ]),
   ];
   binder.bind(bullet, elProp(id, 'bullet'));
-  return [section('Punkty', pointsEditor(app, binder, id)), section('Wygląd punktów', style)];
+  const lead = [
+    h('p', { class: 'hint' }, 'Tekst przed myślnikiem lub dwukropkiem, np. „Hasło - opis”, dostaje osobny wygląd.'),
+    ...bindAll(binder, [
+      [toggleField({ label: 'Wyróżnij hasło przed myślnikiem', testId: 'el-lead' }), elProp(id, 'leadHighlight')],
+      ...(el.leadHighlight ? [
+        [toggleField({ label: 'Pogrubienie hasła' }), elProp(id, 'leadBold')],
+        [colorField({ label: 'Kolor hasła', settings: app.settings }), elProp(id, 'leadColor')],
+      ] : []),
+    ]),
+  ];
+  return [
+    section('Punkty', pointsEditor(app, binder, id)),
+    section('Wygląd punktów', style),
+    section('Wyróżnienie hasła', lead),
+    section('Każdy punkt osobno', el.items.map((_, i) => itemStyleSection(app, binder, el, i)), { open: false }),
+  ];
+}
+
+// Nadpisanie stylu jednego punktu; pusta wartość = ustawienie całego elementu.
+function itemProp(id, i, key, fallback = (e) => e[key]) {
+  return {
+    get: (doc) => {
+      const e = doc.elements[id];
+      return e?.itemStyles?.[i]?.[key] ?? (e ? fallback(e) : undefined);
+    },
+    set: (doc, value) => {
+      const e = doc.elements[id];
+      if (!e || i >= e.items.length) return false;
+      e.itemStyles = Array.from({ length: e.items.length }, (_, k) => e.itemStyles?.[k] ?? {});
+      if (value === null || value === '') delete e.itemStyles[i][key];
+      else e.itemStyles[i][key] = value;
+    },
+    key: `item:${id}:${i}:${key}`,
+  };
+}
+
+function itemStyleSection(app, binder, el, i) {
+  const id = el.id;
+  const boldProp = itemProp(id, i, 'bold');
+  const bold = segmented({ label: 'Pogrubienie', options: [{ value: 'inherit', label: 'Jak reszta' }, { value: 'on', label: 'Tak' }, { value: 'off', label: 'Nie' }] });
+  binder.bind(bold, {
+    get: (doc) => {
+      const v = doc.elements[id]?.itemStyles?.[i]?.bold;
+      return v === true ? 'on' : v === false ? 'off' : 'inherit';
+    },
+    set: (doc, v) => boldProp.set(doc, v === 'inherit' ? null : v === 'on'),
+    key: boldProp.key,
+  });
+  const scale = slider({ label: 'Wielkość względem reszty', min: ITEM_SCALE.min, max: ITEM_SCALE.max, step: 0.05, format: (v) => `${Math.round(v * 100)}%` });
+  const scaleProp = itemProp(id, i, 'scale', () => 1);
+  binder.bind(scale, { ...scaleProp, set: (doc, v) => scaleProp.set(doc, v === 1 ? null : v) });
+  const reset = button('Przywróć wygląd jak reszta', () => app.store.update((doc) => {
+    const e = doc.elements[id];
+    if (!e?.itemStyles?.[i] || !Object.keys(e.itemStyles[i]).length) return false;
+    e.itemStyles[i] = {};
+  }), { small: true });
+  return section(`Punkt ${i + 1}`, [
+    ...bindAll(binder, [
+      [textField({ label: 'Własny znacznik (puste = jak reszta)', maxLength: 4 }), itemProp(id, i, 'bullet', () => '')],
+      [colorField({ label: 'Kolor znacznika', settings: app.settings }), itemProp(id, i, 'bulletColor')],
+      [colorField({ label: 'Kolor tekstu', settings: app.settings }), itemProp(id, i, 'color')],
+      ...(el.leadHighlight ? [[colorField({ label: 'Kolor hasła', settings: app.settings }), itemProp(id, i, 'leadColor')]] : []),
+    ]),
+    bold.el, scale.el, reset,
+  ], { open: false });
 }
 
 function photoSections(app, binder, el) {
@@ -322,7 +387,7 @@ export const elementPanel = {
     const el = doc.elements[ids[0]];
     const extra = {
       text: '',
-      points: `${el.bullet}:${el.items?.length}:${el.autoFit}`,
+      points: `${el.bullet}:${el.items?.length}:${el.autoFit}:${el.leadHighlight}`,
       photo: `${el.assetId}:${el.shape}`,
       qr: `${el.kind}:${el.logoAssetId}`,
       image: `${el.assetId}`,

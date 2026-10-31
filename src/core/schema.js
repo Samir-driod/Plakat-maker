@@ -7,6 +7,7 @@ import {
   ELEMENT_DEFAULTS, DEFAULT_PALETTE, DEFAULT_FONTS, DEFAULT_BACKGROUND, ROLE_NAMES, TYPE_NAMES,
 } from './model.js';
 import { normalizeHex } from './colors.js';
+import { normalizeItemStyles } from './richPoints.js';
 
 export class ProjectError extends Error {
   constructor(message) {
@@ -35,7 +36,7 @@ const ENUMS = {
 const COLOR_FIELDS = {
   photo: ['borderColor'],
   text: ['color', 'strokeColor'],
-  points: ['bulletColor', 'color'],
+  points: ['bulletColor', 'color', 'leadColor'],
   qr: ['fg', 'bg', 'captionColor'],
   image: [],
   shape: ['fill', 'stroke'],
@@ -100,6 +101,7 @@ function normalizeElement(id, raw, warnings) {
   if (type === 'points') {
     el.items = el.items.filter((x) => typeof x === 'string').slice(0, MAX_POINTS);
     if (!el.items.length) el.items = [''];
+    el.itemStyles = normalizeItemStyles(el.itemStyles, el.items.length);
   }
   return el;
 }

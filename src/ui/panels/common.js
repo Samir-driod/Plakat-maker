@@ -43,9 +43,10 @@ export function pointsEditor(app, binder, id) {
   const el = app.store.doc.elements[id];
   const count = el.items.length;
   const update = (fn) => app.store.update((doc) => {
-    const items = doc.elements[id]?.items;
-    if (!items) return false;
-    return fn(items);
+    const e = doc.elements[id];
+    if (!e?.items) return false;
+    e.itemStyles = Array.from({ length: e.items.length }, (_, k) => e.itemStyles?.[k] ?? {});
+    return fn(e.items, e.itemStyles);
   });
 
   const rows = el.items.map((_, i) => {
@@ -59,21 +60,22 @@ export function pointsEditor(app, binder, id) {
       },
       key: `points:${id}:${i}`,
     });
-    const move = (dir) => update((items) => {
+    const move = (dir) => update((items, styles) => {
       const j = i + dir;
       if (j < 0 || j >= items.length) return false;
       [items[i], items[j]] = [items[j], items[i]];
+      [styles[i], styles[j]] = [styles[j], styles[i]];
     });
     return h('div', { class: 'points-row' },
       field.input,
       button('↑', () => move(-1), { small: true, title: 'W górę', disabled: i === 0 }),
       button('↓', () => move(1), { small: true, title: 'W dół', disabled: i === count - 1 }),
-      button('✕', () => update((items) => (items.length <= 1 ? false : void items.splice(i, 1))), { small: true, title: 'Usuń punkt', disabled: count <= 1 }));
+      button('✕', () => update((items, styles) => (items.length <= 1 ? false : void (items.splice(i, 1), styles.splice(i, 1)))), { small: true, title: 'Usuń punkt', disabled: count <= 1 }));
   });
 
   const add = button('+ Dodaj punkt', () => {
     app.ui.focusAfterRender = `[data-testid="point-input-${count}"]`;
-    update((items) => (items.length >= MAX_POINTS ? false : void items.push('')));
+    update((items, styles) => (items.length >= MAX_POINTS ? false : void (items.push(''), styles.push({}))));
   }, { disabled: count >= MAX_POINTS, testId: 'add-point' });
 
   return [

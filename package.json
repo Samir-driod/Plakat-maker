@@ -18,6 +18,33 @@
     "icon": "electron scripts/make-icon.cjs",
     "dist": "node build.mjs && electron-builder --win portable nsis"
   },
+  "build": {
+    "appId": "pl.plakatmaker.app",
+    "productName": "Plakat Maker",
+    "copyright": "Plakat Maker",
+    "directories": { "output": "release", "buildResources": "build" },
+    "files": [
+      "package.json",
+      "electron/**",
+      "src/index.html",
+      "src/present.html",
+      "src/core/**",
+      "dist/**",
+      "!**/*.map"
+    ],
+    "fileAssociations": [
+      { "ext": "plakat", "name": "Projekt Plakat Maker", "description": "Projekt plakatu", "role": "Editor", "icon": "build/icon.png" }
+    ],
+    "win": { "target": ["portable", "nsis"], "icon": "build/icon.png" },
+    "portable": { "artifactName": "PlakatMaker-${version}-portable.exe" },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "shortcutName": "Plakat Maker",
+      "artifactName": "PlakatMaker-${version}-instalator.exe"
+    }
+  },
   "devDependencies": {
     "@fontsource/bebas-neue": "5.3.0",
     "@fontsource/caveat": "5.3.0",

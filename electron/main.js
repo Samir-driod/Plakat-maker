@@ -2,6 +2,7 @@ import { app, BrowserWindow, Menu, dialog } from 'electron';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { registerIpc } from './ipc.js';
+import { registerPresent } from './present.js';
 import { createSettingsStore } from './lib/settingsStore.js';
 import { createTemplateStore } from './lib/templates.js';
 import { createLogger } from './lib/logger.js';
@@ -120,7 +121,12 @@ if (!app.requestSingleInstanceLock()) {
     Menu.setApplicationMenu(null);
     const settings = createSettingsStore(path.join(app.getPath('userData'), 'settings.json'));
     const templates = createTemplateStore(path.join(app.getPath('userData'), 'templates'));
-    registerIpc({ getWindow: () => mainWindow, settings, templates, logger, e2eDir: E2E_DIR, state });
+    const { handle } = registerIpc({ getWindow: () => mainWindow, settings, templates, logger, e2eDir: E2E_DIR, state });
+    registerPresent({
+      handle,
+      preloadPath: path.join(__dirname, 'preload.cjs'),
+      htmlPath: path.join(__dirname, '..', 'src', 'present.html'),
+    });
     mainWindow = createWindow();
   });
 

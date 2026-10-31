@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src data:; style-src 'unsafe-inline'; script-src 'self'">
+  <title>Pokaz — Plakat Maker</title>
+  <style>
+    html, body { margin: 0; height: 100%; background: #000; overflow: hidden; cursor: none; }
+    img { width: 100vw; height: 100vh; object-fit: contain; display: block; }
+    .hint { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); color: #fff; background: rgba(0,0,0,.65);
+      padding: 8px 14px; border-radius: 8px; font: 15px 'Segoe UI', sans-serif; transition: opacity .6s; }
+  </style>
+</head>
+<body>
+  <img id="poster" alt="">
+  <div class="hint" id="hint">Esc lub dwuklik — zakończ pokaz</div>
+  <script src="../dist/present.js"></script>
+</body>
+</html>
